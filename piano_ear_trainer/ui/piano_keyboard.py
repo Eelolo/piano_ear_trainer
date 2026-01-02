@@ -1,7 +1,7 @@
 """Виджет виртуальной клавиатуры фортепиано."""
 
 from PySide6.QtCore import QRect, Qt, Signal
-from PySide6.QtGui import QBrush, QColor, QFont, QMouseEvent, QPainter, QPen
+from PySide6.QtGui import QBrush, QColor, QFont, QMouseEvent, QPainter, QPalette, QPen
 from PySide6.QtWidgets import QWidget
 
 from piano_ear_trainer.data import PIANO_NOTES, Note
@@ -145,7 +145,9 @@ class PianoKeyboard(QWidget):
         font.setPointSize(14)
         font.setBold(True)
         painter.setFont(font)
-        painter.setPen(QPen(QColor(255, 255, 255)))  # Белый цвет
+        # Используем системный цвет текста (адаптируется к теме ОС)
+        text_color = self.palette().color(QPalette.ColorRole.WindowText)
+        painter.setPen(QPen(text_color))
 
         for i, (midi_number, label) in enumerate(self.OCTAVE_LABELS):
             # Находим позицию клавиши
