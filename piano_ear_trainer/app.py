@@ -66,3 +66,12 @@ def main() -> None:
         import traceback
         traceback.print_exc()
         input("Press Enter to exit...")
+
+
+print(f"__name__ = {__name__}")
+if __name__ == "__main__":
+    print("Calling main()...")
+    main()
+else:
+    print("Not __main__, exiting...")
+    input("Press Enter...")
