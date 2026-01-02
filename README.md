@@ -83,7 +83,7 @@ pip install pyinstaller
 pyinstaller piano_ear_trainer.spec --clean
 
 # Результат
-ls dist/EarTrainer
+ls dist/PianoEarTrainer
 ```
 
 ### Windows
@@ -97,7 +97,7 @@ pip install pyinstaller
 pyinstaller piano_ear_trainer.spec --clean
 
 REM Результат
-dir dist\EarTrainer.exe
+dir dist\PianoEarTrainer.exe
 ```
 
 ## Технологии

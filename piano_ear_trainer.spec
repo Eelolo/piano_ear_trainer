@@ -1,13 +1,18 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec file for Ear Trainer."""
+"""PyInstaller spec file for Piano Ear Trainer."""
 
-import sys
 from pathlib import Path
+
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 block_cipher = None
 
 # Путь к проекту
 project_dir = Path(SPECPATH)
+
+# Собираем все данные и модули PySide6
+pyside6_datas = collect_data_files('PySide6', include_py_files=False)
+pyside6_imports = collect_submodules('PySide6')
 
 a = Analysis(
     [str(project_dir / 'piano_ear_trainer' / 'app.py')],
@@ -16,13 +21,10 @@ a = Analysis(
     datas=[
         # Включаем MP3 сэмплы
         (str(project_dir / 'assets' / 'samples_mp3'), 'assets/samples_mp3'),
-    ],
+    ] + pyside6_datas,
     hiddenimports=[
         'pygame',
-        'PySide6.QtCore',
-        'PySide6.QtGui',
-        'PySide6.QtWidgets',
-    ],
+    ] + pyside6_imports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -42,14 +44,14 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='EarTrainer',
+    name='PianoEarTrainer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,  # Без консольного окна
+    console=True,  # Временно для отладки
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

@@ -11,5 +11,5 @@ pyinstaller piano_ear_trainer.spec --clean
 
 echo.
 echo === Build complete! ===
-echo Executable: dist\EarTrainer.exe
+echo Executable: dist\PianoEarTrainer.exe
 pause
