@@ -1,9 +1,11 @@
 """Модуль воспроизведения звука нот."""
 
+import os
 import random
 import sys
 from pathlib import Path
 
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 
 from piano_ear_trainer.data import PIANO_NOTES, Note

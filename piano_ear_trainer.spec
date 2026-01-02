@@ -1,34 +1,50 @@
 # -*- mode: python ; coding: utf-8 -*-
 """PyInstaller spec file for Piano Ear Trainer."""
 
+import sys
 from pathlib import Path
-
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 block_cipher = None
 
 # Путь к проекту
 project_dir = Path(SPECPATH)
 
-# Собираем все данные и модули PySide6
-pyside6_datas = collect_data_files('PySide6', include_py_files=False)
-pyside6_imports = collect_submodules('PySide6')
+# Иконки
+icon_files = [
+    (str(project_dir / 'assets' / 'icon.ico'), 'assets'),
+    (str(project_dir / 'assets' / 'icon.png'), 'assets'),
+]
+if sys.platform == 'darwin':
+    icon_files.append((str(project_dir / 'assets' / 'icon.icns'), 'assets'))
 
 a = Analysis(
     [str(project_dir / 'piano_ear_trainer' / 'app.py')],
     pathex=[str(project_dir)],
     binaries=[],
     datas=[
-        # Включаем MP3 сэмплы
         (str(project_dir / 'assets' / 'samples_mp3'), 'assets/samples_mp3'),
-    ] + pyside6_datas,
+    ] + icon_files,
     hiddenimports=[
         'pygame',
-    ] + pyside6_imports,
+        'PySide6.QtCore',
+        'PySide6.QtGui',
+        'PySide6.QtWidgets',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=[
+        'PySide6.QtWebEngine',
+        'PySide6.QtWebEngineCore',
+        'PySide6.QtWebEngineWidgets',
+        'PySide6.QtWebChannel',
+        'PySide6.QtNetwork',
+        'PySide6.QtQml',
+        'PySide6.QtQuick',
+        'PySide6.Qt3D',
+        'PySide6.QtCharts',
+        'PySide6.QtDataVisualization',
+    ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,
@@ -51,11 +67,26 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,  # Временно для отладки
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # Можно добавить иконку: icon='assets/icon.ico'
+    icon=str(project_dir / 'assets' / ('icon.icns' if sys.platform == 'darwin' else 'icon.ico')),
 )
+
+# macOS: создаём .app bundle
+if sys.platform == 'darwin':
+    app = BUNDLE(
+        exe,
+        name='PianoEarTrainer.app',
+        icon=str(project_dir / 'assets' / 'icon.icns'),
+        bundle_identifier='com.pianoeartrainer.app',
+        info_plist={
+            'CFBundleName': 'Piano Ear Trainer',
+            'CFBundleDisplayName': 'Piano Ear Trainer',
+            'CFBundleShortVersionString': '0.1.0',
+            'NSHighResolutionCapable': True,
+        },
+    )

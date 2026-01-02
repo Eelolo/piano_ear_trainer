@@ -3,10 +3,11 @@
 import contextlib
 import json
 import random
+import sys
 from pathlib import Path
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import (
     QCheckBox,
     QHBoxLayout,
@@ -31,8 +32,9 @@ class MainWindow(QMainWindow):
 
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("Тренер музыкального слуха")
+        self.setWindowTitle("Piano Ear Trainer")
         self.setMinimumSize(900, 700)
+        self._set_app_icon()
 
         # Аудио плеер
         self._audio_player = AudioPlayer()
@@ -470,6 +472,20 @@ class MainWindow(QMainWindow):
         """Сохраняет рекорд в файл."""
         with contextlib.suppress(OSError):
             self.SAVE_FILE.write_text(json.dumps({"best_streak": self._best_streak}))
+
+    def _set_app_icon(self) -> None:
+        """Устанавливает иконку приложения."""
+        if getattr(sys, "frozen", False):
+            base_path = Path(sys._MEIPASS)
+        else:
+            base_path = Path(__file__).parent.parent.parent
+
+        # Пробуем разные форматы иконок
+        for ext in ("icns", "ico", "png"):
+            icon_path = base_path / "assets" / f"icon.{ext}"
+            if icon_path.exists():
+                self.setWindowIcon(QIcon(str(icon_path)))
+                break
 
     def closeEvent(self, event) -> None:
         """Обработчик закрытия окна."""

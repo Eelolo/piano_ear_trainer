@@ -1,26 +1,11 @@
 """Главный модуль приложения."""
 
 import sys
-print("Importing PySide6...")
-try:
-    from PySide6.QtGui import QColor, QPalette
-    from PySide6.QtWidgets import QApplication
-    print("PySide6 imported OK")
-except Exception as e:
-    print(f"PySide6 import ERROR: {e}")
-    input("Press Enter...")
-    sys.exit(1)
 
-print("Importing MainWindow...")
-try:
-    from piano_ear_trainer.ui.main_window import MainWindow
-    print("MainWindow imported OK")
-except Exception as e:
-    print(f"MainWindow import ERROR: {e}")
-    import traceback
-    traceback.print_exc()
-    input("Press Enter...")
-    sys.exit(1)
+from PySide6.QtGui import QColor, QPalette
+from PySide6.QtWidgets import QApplication
+
+from piano_ear_trainer.ui.main_window import MainWindow
 
 
 def _apply_dark_theme(app: QApplication) -> None:
@@ -47,31 +32,15 @@ def _apply_dark_theme(app: QApplication) -> None:
 
 def main() -> None:
     """Запуск приложения."""
-    try:
-        print("Starting application...")
-        app = QApplication(sys.argv)
-        print("QApplication created")
-        app.setApplicationName("Piano Ear Trainer")
-        _apply_dark_theme(app)
-        print("Theme applied")
+    app = QApplication(sys.argv)
+    app.setApplicationName("Piano Ear Trainer")
+    _apply_dark_theme(app)
 
-        window = MainWindow()
-        print("MainWindow created")
-        window.show()
-        print("Window shown, entering event loop...")
+    window = MainWindow()
+    window.show()
 
-        sys.exit(app.exec())
-    except Exception as e:
-        print(f"ERROR: {e}")
-        import traceback
-        traceback.print_exc()
-        input("Press Enter to exit...")
+    sys.exit(app.exec())
 
 
-print(f"__name__ = {__name__}")
 if __name__ == "__main__":
-    print("Calling main()...")
     main()
-else:
-    print("Not __main__, exiting...")
-    input("Press Enter...")

@@ -89,14 +89,10 @@ ls dist/PianoEarTrainer
 ### Windows
 
 ```cmd
-REM Вариант 1: использовать скрипт
-build_windows.bat
-
-REM Вариант 2: вручную
 pip install pyinstaller
 pyinstaller piano_ear_trainer.spec --clean
 
-REM Результат
+Результат
 dir dist\PianoEarTrainer.exe
 ```
 
