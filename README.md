@@ -1,3 +1,5 @@
+<img width="886" height="723" alt="image" src="https://github.com/user-attachments/assets/c3e68651-f92f-45c5-a3ae-c317380bd437" />
+
 # Piano Ear Trainer
 
 Десктопное приложение для тренировки музыкального слуха.
