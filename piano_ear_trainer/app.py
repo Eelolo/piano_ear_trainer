@@ -1,11 +1,26 @@
 """Главный модуль приложения."""
 
 import sys
+print("Importing PySide6...")
+try:
+    from PySide6.QtGui import QColor, QPalette
+    from PySide6.QtWidgets import QApplication
+    print("PySide6 imported OK")
+except Exception as e:
+    print(f"PySide6 import ERROR: {e}")
+    input("Press Enter...")
+    sys.exit(1)
 
-from PySide6.QtGui import QColor, QPalette
-from PySide6.QtWidgets import QApplication
-
-from piano_ear_trainer.ui.main_window import MainWindow
+print("Importing MainWindow...")
+try:
+    from piano_ear_trainer.ui.main_window import MainWindow
+    print("MainWindow imported OK")
+except Exception as e:
+    print(f"MainWindow import ERROR: {e}")
+    import traceback
+    traceback.print_exc()
+    input("Press Enter...")
+    sys.exit(1)
 
 
 def _apply_dark_theme(app: QApplication) -> None:
