@@ -32,11 +32,22 @@ def _apply_dark_theme(app: QApplication) -> None:
 
 def main() -> None:
     """Запуск приложения."""
-    app = QApplication(sys.argv)
-    app.setApplicationName("Piano Ear Trainer")
-    _apply_dark_theme(app)
+    try:
+        print("Starting application...")
+        app = QApplication(sys.argv)
+        print("QApplication created")
+        app.setApplicationName("Piano Ear Trainer")
+        _apply_dark_theme(app)
+        print("Theme applied")
 
-    window = MainWindow()
-    window.show()
+        window = MainWindow()
+        print("MainWindow created")
+        window.show()
+        print("Window shown, entering event loop...")
 
-    sys.exit(app.exec())
+        sys.exit(app.exec())
+    except Exception as e:
+        print(f"ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        input("Press Enter to exit...")
